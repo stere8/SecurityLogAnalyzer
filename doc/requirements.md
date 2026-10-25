@@ -51,6 +51,22 @@
 - A file warning states: “No event records found. Check whether this is expected.”
 - The report is printed in the terminal and saved as JSON.
 
+### AC-04: Alerts and unresolved status are tracked separately
+
+For one IP, when failures occur close enough to form the required alert groups:
+
+| Sequence | Alert count | Unresolved IP count |
+|---|---:|---:|
+| Three failures | 1 | 0 |
+| Four failures | 1 | 1 |
+| Six failures | 2 | 0 |
+| Seven failures | 2 | 1 |
+| Three failures, then success | 1 | 0 |
+| Four failures, then success | 1 | 0 |
+| Four failures, then success, then one failure | 1 | 1 |
+
+All failures and successes remain included in the overall event totals.
+
 ## Input contract
 
 The MVP analyzes one application’s CSV file per manual run. The user supplies its path.
@@ -142,21 +158,7 @@ A new failure after a successful login makes the IP unresolved again, unless tha
 
 An IP may appear in both the successful-IP count and unresolved-failure-IP count.
 
-### AC-04: Alerts and unresolved status are tracked separately
 
-For one IP, when failures occur close enough to form the required alert groups:
-
-| Sequence | Alert count | Unresolved IP count |
-|---|---:|---:|
-| Three failures | 1 | 0 |
-| Four failures | 1 | 1 |
-| Six failures | 2 | 0 |
-| Seven failures | 2 | 1 |
-| Three failures, then success | 1 | 0 |
-| Four failures, then success | 1 | 0 |
-| Four failures, then success, then one failure | 1 | 1 |
-
-All failures and successes remain included in the overall event totals.
 
 ## Output requirements
 
