@@ -39,6 +39,6 @@ The first release will not include:
 
 ## Current status
 
-**Milestone 1: Requirements and MVP definition — in progress.**
+**Milestone 1: Requirements and MVP definition — Completed.**
 
 The local Git repository has been initialized. Requirements and design are being documented; analysis functionality has not yet been implemented.
