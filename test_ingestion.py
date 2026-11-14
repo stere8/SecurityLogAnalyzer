@@ -1,4 +1,4 @@
-from ingestion import read_csv
+from ingestion import read_csv,check_timestamp
 import unittest
 
 class TestOutPut(unittest.TestCase):
@@ -8,3 +8,9 @@ class TestOutPut(unittest.TestCase):
         print(f"bad rows: {len(bad_rows)}")
         self.assertEqual(len(good_rows),2)
         self.assertEqual(len(bad_rows),1)
+
+    def test_timestamp(self):
+        self.assertTrue(check_timestamp({"timestamp":"2026-02-20T10:00:00Z"}))
+        self.assertFalse(check_timestamp({"timestamp":"2026-02-30T10:00:00Z"}))
+        self.assertFalse(check_timestamp({"timestamp":"2026-2-20T10:00:00Z"}))
+        self.assertFalse(check_timestamp({}))
