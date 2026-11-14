@@ -1,4 +1,6 @@
 import csv
+import re
+import datetime
 
 
 def read_csv(path):
@@ -17,10 +19,15 @@ def read_csv(path):
                 raise ValueError(f"Missing header(s) {missing}")
 
         for line ,data in enumerate(reader,start=2):
-            if check_username(data):
-                good_data.append(data)
-            else:
+            if not check_username(data):
                 bad_data.append({"line_number" : line,   "reason": "Username is blank or missing"})
+            elif not check_timestamp(data):
+                bad_data.append({"line_number" : line,   "reason": "Timestamp is blank or missing or errored"})
+            else:
+                good_data.append(data)
+
+
+
         return good_data,bad_data
 
 
@@ -31,7 +38,20 @@ def check_username(input):
     else:
         return False
 
-
+def check_timestamp(input):
+    timestamp = input.get("timestamp")
+    if timestamp is not None and timestamp.strip() != "":
+        match = re.fullmatch("[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z",timestamp)
+        if match is not None:
+            try:
+                datetime.datetime.strptime(timestamp,"%Y-%m-%dT%H:%M:%SZ")
+                return True
+            except ValueError:
+                return False
+        else:
+            return False
+    else:
+        return False
 
 
 if __name__ == "__main__":
